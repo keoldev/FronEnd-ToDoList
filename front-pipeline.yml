@@ -6,10 +6,24 @@
 trigger:
 - main
 
-- task: S3Upload@1
-  inputs:
-    awsCredentials: 'aws'
-    regionName: '$(REGION)'
-    bucketName: '$(BUCKET_NAME)'
-    sourceFolder: '/'
-    globExpressions: '!*.yml'
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: S3Upload@1
+    inputs:
+      awsCredentials: 'aws'
+      regionName: '$(REGION)'
+      bucketName: '$(BUCKET_NAME)'
+      sourceFolder: '$(Pipeline.Workspace)'
+      globExpressions: |
+        !*.yml
+        !.git/**
+
+  - task: AWSCLI@1
+    inputs:
+      awsCredentials: 'aws'
+      regionName: '$(REGION)'
+      awsCommand: 'cloudfront'
+      awsSubCommand: 'create-invalidation'
+      awsArguments: '--distribution-id $(DISTRIBUTION_ID) --paths /*'
