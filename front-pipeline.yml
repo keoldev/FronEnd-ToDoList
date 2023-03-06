@@ -17,6 +17,7 @@ steps:
       bucketName: '$(BUCKET_NAME)'
       sourceFolder: '$(Pipeline.Workspace)'
       globExpressions: |
+        **
         !*.yml
         !.git/**
 
