@@ -15,7 +15,7 @@ steps:
       awsCredentials: 'aws'
       regionName: '$(REGION)'
       bucketName: '$(BUCKET_NAME)'
-      sourceFolder: '$(Pipeline.Workspace)'
+      sourceFolder: '/'
       globExpressions: |
         **
         !*.yml
