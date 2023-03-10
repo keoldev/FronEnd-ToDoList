@@ -10,7 +10,7 @@ filterOption.addEventListener("change", filterTodo);
 
 async function addTodo(event) {
     event.preventDefault();
-    const response = await fetch("http://127.0.0.1:8000/",  //"https://1f4hvzju05.execute-api.us-east-1.amazonaws.com/test"
+    const response = await fetch("https://1f4hvzju05.execute-api.us-east-1.amazonaws.com/test",
         {
             method: "POST",
             headers: {
@@ -45,7 +45,21 @@ async function addTodo(event) {
     todoInput.value = "";
 }
 
-function deleteCheck(e) {
+async function deleteCheck(e) {
+    e.preventDefault();
+    const response = await fetch("https://1f4hvzju05.execute-api.us-east-1.amazonaws.com/test",
+        {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+                Authorization : window.location.hash.split("&")[0].split("=")[1]
+            },
+            body: JSON.stringify()
+        }
+    );
+    const data = await response.json()
+    console.log(data)
+
     const item = e.target;
 
     if (item.classList[0] === "trash-btn") {
