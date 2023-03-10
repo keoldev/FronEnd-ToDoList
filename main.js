@@ -45,20 +45,8 @@ async function addTodo(event) {
     todoInput.value = "";
 }
 
-async function deleteCheck(e) {
-    e.preventDefault();
-    const response = await fetch("https://1f4hvzju05.execute-api.us-east-1.amazonaws.com/test",
-        {
-            method: "DELETE",
-            headers: {
-                "content-type": "application/json",
-                Authorization : window.location.hash.split("&")[0].split("=")[1]
-            },
-            body: JSON.stringify()
-        }
-    );
-    const data = await response.json()
-    console.log(data)
+function deleteCheck(e) {
+    
 
     const item = e.target;
 
