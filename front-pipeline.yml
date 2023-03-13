@@ -32,4 +32,5 @@ steps:
       regionName: '$(REGION)'
       awsCommand: 'cloudfront'
       awsSubCommand: 'create-invalidation'
+      #Change DISTRIBUTION_ID once a new cloudfront resource is created
       awsArguments: '--distribution-id $(DISTRIBUTION_ID) --paths /*'
