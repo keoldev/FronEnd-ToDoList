@@ -10,7 +10,7 @@ filterOption.addEventListener("change", filterTodo);
 
 async function addTodo(event) {
     event.preventDefault();
-    const response = await fetch("https://f9hws0unug.execute-api.us-east-1.amazonaws.com/test",
+    const response = await fetch("https://lxxjp9xkz1.execute-api.us-east-1.amazonaws.com/prod",
         {
             method: "POST",
             headers: {
