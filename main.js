@@ -25,6 +25,7 @@ async function addTodo(event) {
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
     const newTodo = document.createElement("li");
+    newTodo.id = 
     newTodo.innerText = todoInput.value;
     newTodo.classList.add("todo-item");
     todoDiv.appendChild(newTodo);
@@ -46,7 +47,7 @@ async function addTodo(event) {
 }
 
 function deleteCheck(e) {
-    
+    e.preventDefault();
 
     const item = e.target;
 
