@@ -1,5 +1,3 @@
-location.replace('https://todovk.auth.us-east-1.amazoncognito.com/oauth2/authorize?client_id=6dk6n80redkhff5lj5lbnp5v2b&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https%3A%2F%2Fd3khny8p15pvhp.cloudfront.net')
-
 const todoInput = document.querySelector(".todo-input");
 const todoButton = document.querySelector(".todo-button");
 const todoList = document.querySelector(".todo-list");
