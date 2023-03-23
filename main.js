@@ -8,14 +8,17 @@ todoButton.addEventListener("click", addTodo);
 todoList.addEventListener("click", deleteCheck);
 filterOption.addEventListener("change", filterTodo);
 
+const auth = window.location.hash.split("&")[0].split("=")[1]
+const apiGateway = "https://jsv17wqruh.execute-api.us-east-1.amazonaws.com/prod"
+ 
 async function addTodo(event) {
     event.preventDefault();
-    const response = await fetch("https://jsv17wqruh.execute-api.us-east-1.amazonaws.com/prod",
+    const response = await fetch(apiGateway,
         {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                Authorization : window.location.hash.split("&")[0].split("=")[1]
+                Authorization : auth,
             },
             body: JSON.stringify({ task: todoInput.value })
         }
@@ -24,13 +27,14 @@ async function addTodo(event) {
     console.log(data)
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
+    todoDiv.id=data.task_id
     const newTodo = document.createElement("li");
-    newTodo.id = 
     newTodo.innerText = todoInput.value;
     newTodo.classList.add("todo-item");
     todoDiv.appendChild(newTodo);
     //ADDING TO LOCAL STORAGE 
     saveLocalTodos(todoInput.value);
+    
 
     const completedButton = document.createElement("button");
     completedButton.innerHTML = '<i class="fas fa-check-circle"></li>';
@@ -44,6 +48,48 @@ async function addTodo(event) {
 
     todoList.appendChild(todoDiv);
     todoInput.value = "";
+}
+
+async function getLocalTodos() {
+    const response = await fetch(apiGateway,
+        {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+                Authorization : auth
+            },
+        }
+    );
+    const data = await response.json()
+    console.log(data)
+    let todos;
+    if (data.tasks === null) {
+        todos = [];
+    } else {
+        todos = data.tasks;
+    }
+    console.log(todos)
+    todos.forEach(function (todo) {
+        const todoDiv = document.createElement("div");
+        todoDiv.classList.add("todo");
+        todoDiv.id = todo.task_id.S
+        const newTodo = document.createElement("li");
+        newTodo.innerText = todo.task.S
+        newTodo.classList.add("todo-item");
+        todoDiv.appendChild(newTodo);
+
+        const completedButton = document.createElement("button");
+        completedButton.innerHTML = '<i class="fas fa-check-circle"></li>';
+        completedButton.classList.add("complete-btn");
+        todoDiv.appendChild(completedButton);
+
+        const trashButton = document.createElement("button");
+        trashButton.innerHTML = '<i class="fas fa-trash"></li>';
+        trashButton.classList.add("trash-btn");
+        todoDiv.appendChild(trashButton);
+
+        todoList.appendChild(todoDiv);
+    });
 }
 
 function deleteCheck(e) {
@@ -101,35 +147,6 @@ function saveLocalTodos(todo) {
     }
     todos.push(todo);
     localStorage.setItem("todos", JSON.stringify(todos));
-}
-
-function getLocalTodos() {
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
-    } else {
-        todos = JSON.parse(localStorage.getItem("todos"));
-    }
-    todos.forEach(function (todo) {
-        const todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
-        const newTodo = document.createElement("li");
-        newTodo.innerText = todo;
-        newTodo.classList.add("todo-item");
-        todoDiv.appendChild(newTodo);
-
-        const completedButton = document.createElement("button");
-        completedButton.innerHTML = '<i class="fas fa-check-circle"></li>';
-        completedButton.classList.add("complete-btn");
-        todoDiv.appendChild(completedButton);
-
-        const trashButton = document.createElement("button");
-        trashButton.innerHTML = '<i class="fas fa-trash"></li>';
-        trashButton.classList.add("trash-btn");
-        todoDiv.appendChild(trashButton);
-
-        todoList.appendChild(todoDiv);
-    });
 }
 
 function removeLocalTodos(todo) {
